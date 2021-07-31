@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import {View, Text, StyleSheet, Button} from "react-native";
-
+import {View, Text, StyleSheet, Button, TouchableOpacity} from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -9,6 +8,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    shadowRadius: 3,
+    shadowOpacity: 0.8,
+    shadowColor: 'rgba(0, 0, 0, 0.24)',
+    paddingHorizontal: 20,
+    paddingVertical: 40,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 17,
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+  }
 });
 
 class DeckList extends Component {
@@ -42,18 +57,23 @@ class DeckList extends Component {
 
   render() {
     const { navigation } = this.props;
+    const { decks } = this.state;
 
     return (
-      <View style={styles.container}>
-        <Text>Deck List View</Text>
-        <Button
-          title="View A Deck"
-          onPress={() => navigation.navigate("Deck")}
-        />
-        <Button
-          title="Add A New Deck"
-          onPress={() => navigation.navigate("AddDeck")}
-        />
+      <View>
+        {
+          Object.keys(decks).map(deck => {
+            const {title, questions} = decks[deck];
+            return (
+              <View style={styles.card} key={deck}>
+                <TouchableOpacity onPress={() => console.log(`Pressed ${title}!`)}>
+                  <Text style={{fontSize: 20}}>{deck}</Text>
+                  <Text>{questions.length}</Text>
+                </TouchableOpacity>
+              </View>
+            );
+          })
+        }
       </View>
     );
   }
